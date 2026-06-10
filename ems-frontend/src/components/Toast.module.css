@@ -1,34 +1,25 @@
 .toast {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 500;
-  box-shadow: var(--shadow-md);
+  bottom: 24px; right: 24px;
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 16px;
+  border-radius: var(--radius);
+  font-size: 13px; font-weight: 500;
+  border: 1px solid;
   z-index: 1000;
-  animation: slideIn 0.2s ease;
-  max-width: 360px;
+  animation: slideUp 0.2s ease;
+  max-width: 340px;
 }
 
-.success { background: var(--success-light); color: var(--success); border: 1px solid #bbf7d0; }
-.error { background: var(--danger-light); color: var(--danger); border: 1px solid #fecaca; }
-.info { background: var(--primary-light); color: var(--primary); border: 1px solid #bfdbfe; }
+.success { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+.error { background: var(--red-bg); color: var(--red); border-color: var(--red); }
 
-.close {
-  background: transparent;
-  border: none;
-  font-size: 12px;
-  cursor: pointer;
-  opacity: 0.6;
-  margin-left: 4px;
-}
+.icon { font-size: 12px; font-weight: 700; }
+.msg { flex: 1; }
+.close { background: transparent; border: none; font-size: 11px; opacity: 0.6; color: inherit; padding: 0; }
+.close:hover { opacity: 1; }
 
-@keyframes slideIn {
-  from { transform: translateY(10px); opacity: 0; }
+@keyframes slideUp {
+  from { transform: translateY(8px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }

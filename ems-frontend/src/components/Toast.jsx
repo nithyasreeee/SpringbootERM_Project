@@ -3,16 +3,14 @@ import styles from './Toast.module.css';
 
 export default function Toast({ message, type = 'success', onClose }) {
   useEffect(() => {
-    const t = setTimeout(onClose, 3000);
+    const t = setTimeout(onClose, 3500);
     return () => clearTimeout(t);
   }, [onClose]);
 
-  const icons = { success: '✅', error: '❌', info: 'ℹ️' };
-
   return (
     <div className={`${styles.toast} ${styles[type]}`}>
-      <span>{icons[type]}</span>
-      <span>{message}</span>
+      <span className={styles.icon}>{type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ'}</span>
+      <span className={styles.msg}>{message}</span>
       <button className={styles.close} onClick={onClose}>✕</button>
     </div>
   );
