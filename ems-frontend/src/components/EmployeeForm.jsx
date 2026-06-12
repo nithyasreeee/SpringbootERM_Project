@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import styles from './EmployeeForm.module.css';
 
+
 const empty = {
   name: '', department: '', salary: '',
   p: { projectname: '', clientname: '', status: 'Active' }
 };
 
-export default function EmployeeForm({ onSubmit, editData, onCancel }) {
+export default function EmployeeForm({ onSubmit, editData, onCancel, isAdmin }) {
   const [form, setForm] = useState(empty);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -59,13 +60,13 @@ export default function EmployeeForm({ onSubmit, editData, onCancel }) {
 
   return (
     <div className={styles.wrap}>
-      {!open && !editData && (
+      {!open && !editData && isAdmin && (
         <button className={styles.openBtn} onClick={() => setOpen(true)}>
           <span className={styles.plusIcon}>+</span> Add employee
         </button>
       )}
 
-      {(open || editData) && (
+      {(open || editData) && isAdmin && (
         <div className={styles.panel}>
           <div className={styles.panelHeader}>
             <div className={styles.panelTitle}>{editData ? 'Edit employee' : 'New employee'}</div>
