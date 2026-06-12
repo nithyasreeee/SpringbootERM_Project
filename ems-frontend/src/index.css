@@ -1,0 +1,64 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0c12;
+  --bg2: #0f1117;
+  --bg3: #1a1d2e;
+  --surface: #0f1117;
+  --surface2: #0a0c12;
+  --border: #1e2130;
+  --border2: #252840;
+  --accent: #5b5ef4;
+  --accent-hover: #4a4de0;
+  --accent-muted: #1e2050;
+  --accent-text: #9b9ef8;
+  --text: #e8e8f0;
+  --text2: #8888a0;
+  --text3: #444860;
+  --text4: #2a2d40;
+  --green: #3ecf8e;
+  --green-bg: #0d2a1e;
+  --amber: #f59e0b;
+  --amber-bg: #2a1f0a;
+  --red: #f87171;
+  --red-bg: #2a1010;
+  --radius: 8px;
+  --radius-lg: 12px;
+}
+
+[data-theme="light"] {
+  --bg: #f4f5f9;
+  --bg2: #eceef4;
+  --bg3: #e4e6f0;
+  --surface: #ffffff;
+  --surface2: #f8f9fc;
+  --border: #e2e5f0;
+  --border2: #d0d4e8;
+  --accent: #5b5ef4;
+  --accent-hover: #4a4de0;
+  --accent-muted: #eeeffe;
+  --accent-text: #4a4de0;
+  --text: #111827;
+  --text2: #4b5563;
+  --text3: #9ca3af;
+  --text4: #d1d5db;
+  --green: #16a34a;
+  --green-bg: #f0fdf4;
+  --amber: #d97706;
+  --amber-bg: #fffbeb;
+  --red: #dc2626;
+  --red-bg: #fef2f2;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 100vh;
+  transition: background 0.2s, color 0.2s;
+}
+
+button { cursor: pointer; font-family: inherit; font-size: 13px; border: none; transition: all 0.15s; }
+input, select { font-family: inherit; font-size: 13px; outline: none; }
