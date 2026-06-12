@@ -1,13 +1,17 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useAuth } from './context/AuthContext';
 import Sidebar from './components/Sidebar';
 import EmployeeForm from './components/EmployeeForm';
 import EmployeeTable from './components/EmployeeTable';
 import Toast from './components/Toast';
+import LoginPage from './pages/LoginPage';
 import { getAllEmployees, saveEmployee, updateEmployee, deleteEmployee } from './api/employeeApi';
 import styles from './App.module.css';
 import './index.css';
 
 export default function App() {
+ 
+  const { user, loading: authLoading, isAdmin } = useAuth();
   const [theme, setTheme] = useState('dark');
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,7 +28,9 @@ export default function App() {
   const computeStats = (data) => {
     const depts = new Set(data.map(e => e.department)).size;
     const active = data.filter(e => e.p?.status === 'Active').length;
-    const avgSalary = data.length ? Math.round(data.reduce((s, e) => s + Number(e.salary), 0) / data.length) : 0;
+    const avgSalary = data.length
+      ? Math.round(data.reduce((s, e) => s + Number(e.salary), 0) / data.length)
+      : 0;
     setStats({ total: data.length, active, depts, avgSalary });
   };
 
@@ -34,14 +40,20 @@ export default function App() {
       const res = await getAllEmployees();
       setEmployees(res.data);
       computeStats(res.data);
-    } catch {
-      showToast('Cannot reach backend. Is Spring Boot running?', 'error');
+    } catch (err) {
+      if (err.response?.status === 403 || err.response?.status === 401) {
+        showToast('Session expired. Please login again.', 'error');
+      } else {
+        showToast('Cannot reach backend. Is Spring Boot running?', 'error');
+      }
     } finally {
       setLoading(false);
     }
   }, []);
 
-  useEffect(() => { fetchEmployees(); }, [fetchEmployees]);
+  useEffect(() => {
+    if (user) fetchEmployees();
+  }, [user, fetchEmployees]);
 
   const handleSubmit = async (formData) => {
     try {
@@ -71,6 +83,25 @@ export default function App() {
     }
   };
 
+  // Show loading screen while checking auth
+  if (authLoading) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'var(--bg)' }}>
+        <div style={{ width: 28, height: 28, border: '2px solid #1e2130', borderTopColor: '#5b5ef4', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }}></div>
+      </div>
+    );
+  }
+
+  // Show login page if not authenticated
+  if (!user) {
+    return (
+      <div data-theme={theme}>
+        <LoginPage />
+      </div>
+    );
+  }
+
+  // Show main dashboard
   return (
     <div className={styles.app}>
       <Sidebar theme={theme} onThemeToggle={() => setTheme(t => t === 'dark' ? 'light' : 'dark')} />
@@ -109,8 +140,19 @@ export default function App() {
             </div>
           </div>
 
-          <EmployeeForm onSubmit={handleSubmit} editData={editData} onCancel={() => setEditData(null)} />
-          <EmployeeTable employees={employees} loading={loading} onEdit={setEditData} onDelete={handleDelete} />
+         <EmployeeForm
+  onSubmit={handleSubmit}
+  editData={editData}
+  onCancel={() => setEditData(null)}
+  isAdmin={isAdmin}   // ← add this
+/>
+<EmployeeTable
+  employees={employees}
+  loading={loading}
+  onEdit={setEditData}
+  onDelete={handleDelete}
+  isAdmin={isAdmin}   // ← add this
+/>
         </div>
       </div>
 

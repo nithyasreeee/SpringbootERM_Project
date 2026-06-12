@@ -19,7 +19,8 @@ const StatusBadge = ({ status }) => {
   return <span className={`${styles.statusBadge} ${map[status] || styles.statusHold}`}>{status}</span>;
 };
 
-export default function EmployeeTable({ employees, onEdit, onDelete, loading }) {
+export default function EmployeeTable({ employees, onEdit, onDelete, loading, isAdmin }) {
+
   const [search, setSearch] = useState('');
   const [sortKey, setSortKey] = useState('id');
   const [sortDir, setSortDir] = useState('asc');
@@ -101,11 +102,11 @@ export default function EmployeeTable({ employees, onEdit, onDelete, loading }) 
                   <td>{emp.p?.clientname || '—'}</td>
                   <td><StatusBadge status={emp.p?.status || 'On Hold'} /></td>
                   <td>
-                    <div className={styles.actions}>
-                      <button className={styles.editBtn} onClick={() => onEdit(emp)} title="Edit">✏</button>
-                      <button className={styles.deleteBtn} onClick={() => onDelete(emp.id)} title="Delete">⊘</button>
-                    </div>
-                  </td>
+    <div className={styles.actions}>
+      <button className={styles.editBtn} onClick={() => onEdit(emp)}>✏</button>
+      <button className={styles.deleteBtn} onClick={() => onDelete(emp.id)}>⊘</button>
+    </div>
+  </td>
                 </tr>
               ))}
             </tbody>
