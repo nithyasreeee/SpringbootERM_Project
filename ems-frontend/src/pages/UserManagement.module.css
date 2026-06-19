@@ -1,0 +1,185 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.title { font-size: 18px; font-weight: 700; color: var(--text); }
+.sub { font-size: 12px; color: var(--text3); margin-top: 3px; }
+
+.statsRow {
+  display: flex;
+  gap: 12px;
+}
+
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  min-width: 80px;
+}
+
+.statNum { font-size: 20px; font-weight: 700; color: var(--text); }
+.statLbl { font-size: 10px; color: var(--text3); font-weight: 500; }
+
+.toast {
+  padding: 10px 16px;
+  background: var(--accent-muted);
+  color: var(--accent-text);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.panelTitle { font-size: 13px; font-weight: 600; color: var(--text); }
+.panelSub { font-size: 11px; color: var(--text3); }
+
+.table { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+.table thead tr { background: var(--surface2); }
+
+.table th {
+  padding: 9px 16px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--text3);
+  border-bottom: 1px solid var(--border);
+}
+
+.table td {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+  vertical-align: middle;
+}
+
+.table tbody tr:last-child td { border-bottom: none; }
+.table tbody tr:hover td { background: var(--bg3); }
+.currentUser td { background: var(--accent-muted) !important; }
+
+.idChip { font-size: 11px; font-weight: 600; color: var(--text3); }
+
+.userRow { display: flex; align-items: center; gap: 9px; }
+
+.avatar {
+  width: 30px; height: 30px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: #fff;
+  flex-shrink: 0;
+}
+
+.username { font-size: 13px; font-weight: 500; color: var(--text); }
+.youLabel { font-size: 10px; color: var(--accent-text); font-weight: 600; }
+
+.badge {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.badgeSuperAdmin { background: #2d1f6e; color: #a78bfa; }
+.badgeAdmin { background: var(--accent-muted); color: var(--accent-text); }
+.badgeEmployee { background: var(--green-bg); color: var(--green); }
+
+.roleSelect {
+  padding: 6px 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 12px;
+  cursor: pointer;
+}
+.roleSelect:focus { border-color: var(--accent); outline: none; }
+.roleSelect:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.cantChange { font-size: 11px; color: var(--text3); font-style: italic; }
+.updating { font-size: 11px; color: var(--amber); }
+.active { font-size: 11px; color: var(--green); }
+
+.loadingBox {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 50px; gap: 12px; color: var(--text3);
+}
+
+.spinner {
+  width: 24px; height: 24px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.infoBox {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+.infoTitle {
+  font-size: 13px; font-weight: 600;
+  color: var(--text); margin-bottom: 14px;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.infoCard {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.permList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text2);
+}
