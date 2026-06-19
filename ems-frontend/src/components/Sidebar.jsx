@@ -1,15 +1,6 @@
 import { useAuth } from '../context/AuthContext';
 import styles from './Sidebar.module.css';
 
-const navItems = [
-  { label: 'Dashboard', icon: '⬡' },
-  { label: 'Employees', icon: '◈', active: true },
-  { label: 'Projects', icon: '◉' },
-  { label: 'Departments', icon: '⊞', section: 'Manage' },
-  { label: 'Reports', icon: '◧' },
-  { label: 'Settings', icon: '⊙' },
-];
-
 const roleBadgeClass = {
   SUPER_ADMIN: 'badgeSuperAdmin',
   ADMIN: 'badgeAdmin',
@@ -22,7 +13,7 @@ const roleLabel = {
   EMPLOYEE: 'Employee',
 };
 
-export default function Sidebar({ theme, onThemeToggle }) {
+export default function Sidebar({ theme, onThemeToggle, onNavigate, currentPage }) {
   const { user, logout, isSuperAdmin } = useAuth();
 
   return (
@@ -36,23 +27,66 @@ export default function Sidebar({ theme, onThemeToggle }) {
       </div>
 
       <nav className={styles.nav}>
-        {navItems.map((item, i) => (
-          <div key={i}>
-            {item.section && (
-              <div className={styles.navSection}>{item.section}</div>
-            )}
-            <div className={`${styles.navItem} ${item.active ? styles.active : ''}`}>
-              <span className={styles.navIcon}>{item.icon}</span>
-              <span>{item.label}</span>
-            </div>
-          </div>
-        ))}
+        <div className={styles.navSection}>Main</div>
 
-        {/* User Management — only visible to SUPER_ADMIN */}
+        <div
+          className={`${styles.navItem} ${currentPage === 'dashboard' ? styles.active : ''}`}
+          onClick={() => onNavigate('dashboard')}
+        >
+          <span className={styles.navIcon}>⬡</span>
+          <span>Dashboard</span>
+        </div>
+
+        <div
+          className={`${styles.navItem} ${currentPage === 'employees' ? styles.active : ''}`}
+          onClick={() => onNavigate('employees')}
+        >
+          <span className={styles.navIcon}>◈</span>
+          <span>Employees</span>
+        </div>
+
+        <div
+          className={`${styles.navItem} ${currentPage === 'projects' ? styles.active : ''}`}
+          onClick={() => onNavigate('projects')}
+        >
+          <span className={styles.navIcon}>◉</span>
+          <span>Projects</span>
+        </div>
+
+        <div className={styles.navSection}>Manage</div>
+
+        <div
+          className={`${styles.navItem} ${currentPage === 'departments' ? styles.active : ''}`}
+          onClick={() => onNavigate('departments')}
+        >
+          <span className={styles.navIcon}>⊞</span>
+          <span>Departments</span>
+        </div>
+
+        <div
+          className={`${styles.navItem} ${currentPage === 'reports' ? styles.active : ''}`}
+          onClick={() => onNavigate('reports')}
+        >
+          <span className={styles.navIcon}>◧</span>
+          <span>Reports</span>
+        </div>
+
+        <div
+          className={`${styles.navItem} ${currentPage === 'settings' ? styles.active : ''}`}
+          onClick={() => onNavigate('settings')}
+        >
+          <span className={styles.navIcon}>⊙</span>
+          <span>Settings</span>
+        </div>
+
+        {/* Only visible to SUPER_ADMIN */}
         {isSuperAdmin && (
           <>
             <div className={styles.navSection}>Admin</div>
-            <div className={styles.navItem}>
+            <div
+              className={`${styles.navItem} ${currentPage === 'users' ? styles.active : ''}`}
+              onClick={() => onNavigate('users')}
+            >
               <span className={styles.navIcon}>◑</span>
               <span>User Management</span>
             </div>

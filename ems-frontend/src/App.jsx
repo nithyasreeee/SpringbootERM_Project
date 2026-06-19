@@ -5,25 +5,30 @@ import EmployeeForm from './components/EmployeeForm';
 import EmployeeTable from './components/EmployeeTable';
 import Toast from './components/Toast';
 import LoginPage from './pages/LoginPage';
+import UserManagement from './pages/UserManagement';
+import Dashboard from './pages/Dashboard';
 import { getAllEmployees, saveEmployee, updateEmployee, deleteEmployee } from './api/employeeApi';
 import styles from './App.module.css';
 import './index.css';
 
 export default function App() {
- 
-  const { user, loading: authLoading, isAdmin } = useAuth();
+  const { user, loading: authLoading, isAdmin, isSuperAdmin } = useAuth();
   const [theme, setTheme] = useState('dark');
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editData, setEditData] = useState(null);
+  const [page, setPage] = useState('dashboard');
   const [toast, setToast] = useState(null);
-  const [stats, setStats] = useState({ total: 0, active: 0, depts: 0, avgSalary: 0 });
+  const [stats, setStats] = useState({
+    total: 0, active: 0, depts: 0, avgSalary: 0
+  });
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
-  const showToast = (message, type = 'success') => setToast({ message, type });
+  const showToast = (message, type = 'success') =>
+    setToast({ message, type });
 
   const computeStats = (data) => {
     const depts = new Set(data.map(e => e.department)).size;
@@ -67,7 +72,9 @@ export default function App() {
       }
       fetchEmployees();
     } catch (err) {
-      showToast(err.response?.data?.message || 'Something went wrong', 'error');
+      showToast(
+        err.response?.data?.message || 'Something went wrong', 'error'
+      );
       throw err;
     }
   };
@@ -83,16 +90,42 @@ export default function App() {
     }
   };
 
-  // Show loading screen while checking auth
+  const getPageTitle = () => {
+    switch (page) {
+      case 'dashboard': return 'Dashboard';
+      case 'users': return 'User Management';
+      case 'employees': return 'Employees';
+      default: return 'Employees';
+    }
+  };
+
+  const getPageSub = () => {
+    switch (page) {
+      case 'dashboard': return 'Overview of your workforce';
+      case 'users': return 'Manage roles and access';
+      case 'employees': return 'Manage your workforce';
+      default: return 'Manage your workforce';
+    }
+  };
+
   if (authLoading) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'var(--bg)' }}>
-        <div style={{ width: 28, height: 28, border: '2px solid #1e2130', borderTopColor: '#5b5ef4', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }}></div>
+      <div style={{
+        display: 'flex', alignItems: 'center',
+        justifyContent: 'center', height: '100vh',
+        background: '#0a0c12'
+      }}>
+        <div style={{
+          width: 28, height: 28,
+          border: '2px solid #1e2130',
+          borderTopColor: '#5b5ef4',
+          borderRadius: '50%',
+          animation: 'spin 0.7s linear infinite'
+        }}></div>
       </div>
     );
   }
 
-  // Show login page if not authenticated
   if (!user) {
     return (
       <div data-theme={theme}>
@@ -101,16 +134,108 @@ export default function App() {
     );
   }
 
-  // Show main dashboard
+  const renderPage = () => {
+    switch (page) {
+      case 'dashboard':
+        return <Dashboard />;
+
+      case 'employees':
+        return (
+          <>
+            <div className={styles.statsRow}>
+              <div className={styles.statCard}>
+                <div className={styles.statVal}>{stats.total}</div>
+                <div className={styles.statLabel}>Total employees</div>
+              </div>
+              <div className={styles.statCard}>
+                <div className={`${styles.statVal} ${styles.green}`}>
+                  {stats.active}
+                </div>
+                <div className={styles.statLabel}>Active projects</div>
+              </div>
+              <div className={styles.statCard}>
+                <div className={`${styles.statVal} ${styles.accent}`}>
+                  {stats.depts}
+                </div>
+                <div className={styles.statLabel}>Departments</div>
+              </div>
+              <div className={styles.statCard}>
+                <div className={`${styles.statVal} ${styles.amber}`}>
+                  {stats.avgSalary
+                    ? `₹${(stats.avgSalary / 1000).toFixed(1)}K`
+                    : '—'}
+                </div>
+                <div className={styles.statLabel}>Avg. salary</div>
+              </div>
+            </div>
+            <EmployeeForm
+              onSubmit={handleSubmit}
+              editData={editData}
+              onCancel={() => setEditData(null)}
+              isAdmin={isAdmin}
+            />
+            <EmployeeTable
+              employees={employees}
+              loading={loading}
+              onEdit={setEditData}
+              onDelete={handleDelete}
+              isAdmin={isAdmin}
+            />
+          </>
+        );
+
+      case 'users':
+        return isSuperAdmin
+          ? <UserManagement />
+          : (
+            <div style={{
+              display: 'flex', flexDirection: 'column',
+              alignItems: 'center', justifyContent: 'center',
+              height: '60vh', color: 'var(--text3)', gap: 12
+            }}>
+              <div style={{ fontSize: 40 }}>⊘</div>
+              <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--text2)' }}>
+                Access Denied
+              </p>
+              <p style={{ fontSize: 13 }}>
+                You don't have permission to view this page.
+              </p>
+            </div>
+          );
+
+      default:
+        return (
+          <div style={{
+            display: 'flex', flexDirection: 'column',
+            alignItems: 'center', justifyContent: 'center',
+            height: '60vh', color: 'var(--text3)', gap: 12
+          }}>
+            <div style={{ fontSize: 40 }}>🚧</div>
+            <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--text2)' }}>
+              Coming Soon
+            </p>
+            <p style={{ fontSize: 13 }}>
+              This page is under construction.
+            </p>
+          </div>
+        );
+    }
+  };
+
   return (
     <div className={styles.app}>
-      <Sidebar theme={theme} onThemeToggle={() => setTheme(t => t === 'dark' ? 'light' : 'dark')} />
+      <Sidebar
+        theme={theme}
+        onThemeToggle={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
+        onNavigate={setPage}
+        currentPage={page}
+      />
 
       <div className={styles.main}>
         <div className={styles.topbar}>
           <div>
-            <h1 className={styles.pageTitle}>Employees</h1>
-            <p className={styles.pageSub}>Manage your workforce</p>
+            <h1 className={styles.pageTitle}>{getPageTitle()}</h1>
+            <p className={styles.pageSub}>{getPageSub()}</p>
           </div>
           <div className={styles.topbarRight}>
             <div className={styles.statusDot}></div>
@@ -119,44 +244,17 @@ export default function App() {
         </div>
 
         <div className={styles.content}>
-          <div className={styles.statsRow}>
-            <div className={styles.statCard}>
-              <div className={styles.statVal}>{stats.total}</div>
-              <div className={styles.statLabel}>Total employees</div>
-            </div>
-            <div className={styles.statCard}>
-              <div className={`${styles.statVal} ${styles.green}`}>{stats.active}</div>
-              <div className={styles.statLabel}>Active projects</div>
-            </div>
-            <div className={styles.statCard}>
-              <div className={`${styles.statVal} ${styles.accent}`}>{stats.depts}</div>
-              <div className={styles.statLabel}>Departments</div>
-            </div>
-            <div className={styles.statCard}>
-              <div className={`${styles.statVal} ${styles.amber}`}>
-                {stats.avgSalary ? `₹${(stats.avgSalary / 1000).toFixed(1)}K` : '—'}
-              </div>
-              <div className={styles.statLabel}>Avg. salary</div>
-            </div>
-          </div>
-
-         <EmployeeForm
-  onSubmit={handleSubmit}
-  editData={editData}
-  onCancel={() => setEditData(null)}
-  isAdmin={isAdmin}   // ← add this
-/>
-<EmployeeTable
-  employees={employees}
-  loading={loading}
-  onEdit={setEditData}
-  onDelete={handleDelete}
-  isAdmin={isAdmin}   // ← add this
-/>
+          {renderPage()}
         </div>
       </div>
 
-      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }
