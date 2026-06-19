@@ -1,0 +1,126 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.loadingBox {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  height: 60vh; gap: 12px; color: var(--text3);
+}
+
+.spinner {
+  width: 24px; height: 24px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.statCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.statIcon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.statVal {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+
+.statLbl {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.chartsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.chartCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+.chartHeader { margin-bottom: 16px; }
+.chartTitle { font-size: 13px; font-weight: 600; color: var(--text); }
+.chartSub { font-size: 11px; color: var(--text3); margin-top: 3px; }
+
+.noData {
+  display: flex; align-items: center; justify-content: center;
+  height: 220px; color: var(--text3); font-size: 13px;
+}
+
+.recentTable {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.recentRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: var(--radius);
+  transition: background 0.12s;
+}
+.recentRow:hover { background: var(--bg3); }
+
+.recentAvatar {
+  width: 32px; height: 32px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: #fff;
+  flex-shrink: 0;
+}
+
+.recentInfo { flex: 1; min-width: 0; }
+.recentName { font-size: 13px; font-weight: 500; color: var(--text); }
+.recentDept { font-size: 11px; color: var(--text3); }
+
+.recentRight { text-align: right; }
+.recentSalary { font-size: 12px; font-weight: 600; color: var(--green); }
+
+.recentStatus {
+  font-size: 10px; font-weight: 500; margin-top: 2px;
+}
+.statusActive { color: var(--green); }
+.statusProgress { color: var(--amber); }
+.statusOther { color: var(--text3); }
+
+@media (max-width: 900px) {
+  .statsRow { grid-template-columns: repeat(2, 1fr); }
+  .chartsRow { grid-template-columns: 1fr; }
+}
