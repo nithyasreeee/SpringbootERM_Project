@@ -11,7 +11,7 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOrigin("http://localhost:5173");
-        config.addAllowedOrigin("https://your-vercel-app.vercel.app");
+        config.addAllowedOrigin("https://springboot-erm-project-m39x.vercel.app");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setAllowCredentials(true);
