@@ -1,0 +1,109 @@
+.wrap { margin-bottom: 18px; }
+
+.openBtn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 18px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 500;
+}
+.openBtn:hover { background: var(--accent-hover); }
+
+.plusIcon { font-size: 16px; font-weight: 300; line-height: 1; }
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.panelTitle { font-size: 13px; font-weight: 600; color: var(--text); }
+
+.closeBtn {
+  width: 26px; height: 26px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text2);
+  font-size: 11px;
+  display: flex; align-items: center; justify-content: center;
+}
+.closeBtn:hover { color: var(--text); }
+
+.sectionLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 14px 20px 8px;
+}
+
+.grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 0 20px;
+}
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+
+.label { font-size: 11px; font-weight: 500; color: var(--text2); }
+
+.input {
+  padding: 8px 11px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  transition: border-color 0.15s;
+  width: 100%;
+}
+.input:focus { border-color: var(--accent); }
+.err { border-color: var(--red) !important; }
+.errMsg { font-size: 10px; color: var(--red); }
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 20px;
+}
+
+.cancelBtn {
+  padding: 7px 16px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text2);
+  font-size: 12px;
+}
+.cancelBtn:hover { background: var(--bg3); }
+
+.submitBtn {
+  padding: 7px 20px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 500;
+}
+.submitBtn:hover:not(:disabled) { background: var(--accent-hover); }
+.submitBtn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+@media (max-width: 640px) {
+  .grid3 { grid-template-columns: 1fr; }
+}
